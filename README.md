@@ -30,10 +30,11 @@ if ($icon_id) {
         echo $svg_content;
     }
 }
-
+```
 ## Обработка ошибок
 
 Функция `air_get_svg_with_class` возвращает объект `WP_Error` в случае ошибок.
+
 Возможные ошибки:
 
 - `attachment_not_found`: Вложение с данным ID не найдено.
