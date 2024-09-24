@@ -7,24 +7,22 @@
  */
 function air_get_svg_with_class( $attachment_id ) {
     $attachment = get_post( $attachment_id );
-
-    if ( $attachment ) {
-        $file_type = get_post_mime_type( $attachment );
-
-        if ( 'image/svg+xml' === $file_type ) {
-            $file_path = get_attached_file( $attachment_id );
-
-            if ( file_exists( $file_path ) ) {
-                $svg_content = file_get_contents( $file_path );
-                $svg_content = preg_replace( '/<svg([^>]*)/', '<svg$1 class="upload"', $svg_content );
-                return $svg_content;
-            } else {
-                return __( 'SVG file not found.', 'your-text-domain' );
-            }
-        } else {
-            return __( 'This is not an SVG file.', 'your-text-domain' );
-        }
+    if ( ! $attachment ) {
+        return __( 'Attachment not found.', 'your-text-domain' );
     }
 
-    return __( 'Attachment not found.', 'your-text-domain' );
+    $file_type = get_post_mime_type( $attachment );
+    if ( 'image/svg+xml' !== $file_type ) {
+        return __( 'This is not an SVG file.', 'your-text-domain' );
+    }
+
+    $file_path = get_attached_file( $attachment_id );
+    if ( ! file_exists( $file_path ) ) {
+        return __( 'SVG file not found.', 'your-text-domain' );
+    }
+
+    $svg_content = file_get_contents( $file_path );
+    $svg_content = preg_replace( '/<svg([^>]*)/', '<svg$1 class="upload"', $svg_content );
+    
+    return $svg_content;
 }
