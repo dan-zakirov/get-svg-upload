@@ -22,14 +22,12 @@ function air_get_svg_with_class( $attachment_id ) {
         return __( 'SVG file not found.', 'your-text-domain' );
     }
 
-    $svg_content = file_get_contents($file_path);
-
     $svg_content = preg_replace_callback(
-        '/<svg([^>]*)/', 
+        '/<svg([^>]*)/',
         function($matches) {
             return '<svg' . $matches[1] . ' class="upload"';
         },
-        $svg_content
+        file_get_contents($file_path)
     );
 
     return $svg_content;
